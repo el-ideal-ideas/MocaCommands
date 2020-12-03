@@ -1,0 +1,26 @@
+{
+  "hello": {
+    "status": true,
+    "cmd": "echo 'Hello World!'",
+    "pass": null,
+    "ip": ["127.0.0.1"],
+    "rate": "64 per second",
+    "rate_per_ip": "1 per second"
+  },
+  "hello-py": {
+    "status": true,
+    "cmd_path": "hello.py",
+    "pass": null,
+    "ip": ["127.0.0.1"],
+    "rate": "64 per second",
+    "rate_per_ip": "1 per second"
+  },
+  "show-my-request": {
+    "status": true,
+    "cmd": "[moca]show_my_request",
+    "pass": null,
+    "ip": "*",
+    "rate": "64 per second",
+    "rate_per_ip": "1 per second"
+  }
+}
