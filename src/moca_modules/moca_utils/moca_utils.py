@@ -43,6 +43,7 @@ from prettytable import PrettyTable
 from PIL import Image
 from io import BytesIO
 from shutil import copytree, rmtree, copy
+from os import remove
 try:
     from cloudpickle import dumps as p_dumps, loads as p_loads
 except (ImportError, ModuleNotFoundError):
@@ -1372,7 +1373,7 @@ def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[U
     copytree(str(git_dir), str(project_dir))
     for keep in keep_list:
         if Path(keep).is_file:
-            Path(keep).unlink(missing_ok=True)
+            remove(str(keep))
             copy(str(keep_dir.joinpath(Path(keep).name)), str(keep))
         elif Path(keep).is_dir:
             rmtree(str(keep))
