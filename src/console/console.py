@@ -30,6 +30,28 @@ def update() -> None:
     mzk.install_requirements_file(core.TOP_DIR.joinpath('requirements.txt'))
 
 
+@console.command('update-system')
+def update_system() -> None:
+    """Update system, get latest code from github."""
+    mzk.update_use_github(
+        core.TOP_DIR,
+        'https://github.com/el-ideal-ideas/MocaCommands',
+        [
+            core.COMMANDS_DIR,
+            core.CONFIG_DIR,
+            core.SCRIPTS_DIR,
+            core.LOG_DIR,
+            core.STATIC_DIR,
+            core.STORAGE_DIR,
+            core.TOP_DIR.joinpath('keep'),
+            core.TOP_DIR.joinpath('atexit.py'),
+            core.TOP_DIR.joinpath('atexit.sh'),
+            core.TOP_DIR.joinpath('startup.py'),
+            core.TOP_DIR.joinpath('startup.sh'),
+        ]
+    )
+
+
 @console.command('run')
 def run(sleep: float = 0) -> None:
     """Run MocaCommands."""

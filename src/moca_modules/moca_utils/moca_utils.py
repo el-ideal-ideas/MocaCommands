@@ -42,6 +42,7 @@ from pygments.formatters import TerminalFormatter
 from prettytable import PrettyTable
 from PIL import Image
 from io import BytesIO
+from shutil import copytree, rmtree, copy
 try:
     from cloudpickle import dumps as p_dumps, loads as p_loads
 except (ImportError, ModuleNotFoundError):
@@ -61,7 +62,7 @@ except (ImportError, ModuleNotFoundError):
     dumps = partial(__dumps, separators=(",", ":"), ensure_ascii=False)
     is_ujson = lambda: False
 from ..moca_core import (
-    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING
+    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING, TMP_DIR
 )
 
 # -------------------------------------------------------------------------- Imports --
@@ -1355,5 +1356,28 @@ def get_my_public_ip() -> str:
     if res != '':
         return res
     return get_my_public_ip_v6()
+
+
+def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[Union[Path, str]]) -> None:
+    git_dir = TMP_DIR.joinpath(uuid4().hex)
+    keep_dir = TMP_DIR.joinpath(uuid4().hex)
+    keep_dir.mkdir(parents=True, exist_ok=True)
+    git_clone(url, str(git_dir))
+    for keep in keep_list:
+        if Path(keep).is_file:
+            copy(str(keep), str(keep_dir.joinpath(Path(keep).name)))
+        elif Path(keep).is_dir:
+            copytree(str(keep), str(keep_dir.joinpath(Path(keep).name)))
+    rmtree(str(project_dir))
+    copytree(str(git_dir), str(project_dir))
+    for keep in keep_list:
+        if Path(keep).is_file:
+            Path(keep).unlink()
+            copy(str(keep_dir.joinpath(Path(keep).name)), str(keep))
+        elif Path(keep).is_dir:
+            rmtree(str(keep))
+            copytree(str(keep_dir.joinpath(Path(keep).name)), str(keep))
+    rmtree(str(keep_dir))
+    rmtree(str(git_dir))
 
 # -------------------------------------------------------------------------- Utils --
