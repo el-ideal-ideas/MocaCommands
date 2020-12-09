@@ -1364,15 +1364,15 @@ def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[U
     keep_dir.mkdir(parents=True, exist_ok=True)
     git_clone(url, str(git_dir))
     for keep in keep_list:
-        if Path(keep).is_file:
+        try:
             copy(str(keep), str(keep_dir.joinpath(Path(keep).name)))
-        elif Path(keep).is_dir:
+        except IsADirectoryError:
             copytree(str(keep), str(keep_dir.joinpath(Path(keep).name)))
     rmtree(str(project_dir))
     copytree(str(git_dir), str(project_dir))
     for keep in keep_list:
         if Path(keep).is_file:
-            Path(keep).unlink()
+            Path(keep).unlink(missing_ok=True)
             copy(str(keep_dir.joinpath(Path(keep).name)), str(keep))
         elif Path(keep).is_dir:
             rmtree(str(keep))
