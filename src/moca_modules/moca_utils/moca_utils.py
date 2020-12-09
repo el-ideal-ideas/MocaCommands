@@ -1360,25 +1360,30 @@ def get_my_public_ip() -> str:
 
 
 def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[Union[Path, str]]) -> None:
-    git_dir = TMP_DIR.joinpath(uuid4().hex)
-    keep_dir = TMP_DIR.joinpath(uuid4().hex)
-    keep_dir.mkdir(parents=True, exist_ok=True)
+    git_dir = Path(project_dir).joinpath(uuid4().hex)
     git_clone(url, str(git_dir))
     for keep in keep_list:
+        from_ = Path(keep)
+        to_ = git_dir
+        tmp = []
+        while from_ != Path(project_dir):
+            tmp.append(from_.parent.name)
+            from_ = from_.parent
+        from_ = Path(keep)
+        for i in tmp:
+            to_ = to_.joinpath(i)
         try:
-            copy(str(keep), str(keep_dir.joinpath(Path(keep).name)))
+            to_.unlink(missing_ok=True)
+            copy(str(from_), str(to_))
         except IsADirectoryError:
-            copytree(str(keep), str(keep_dir.joinpath(Path(keep).name)))
+            try:
+                rmtree(str(to_))
+            except FileNotFoundError:
+                pass
+            copytree(str(from_), str(to_))
+    copytree(str(git_dir), str(TMP_DIR.joinpath(git_dir.name)))
     rmtree(str(project_dir))
-    copytree(str(git_dir), str(project_dir))
-    for keep in keep_list:
-        if Path(keep).is_file:
-            remove(str(keep))
-            copy(str(keep_dir.joinpath(Path(keep).name)), str(keep))
-        elif Path(keep).is_dir:
-            rmtree(str(keep))
-            copytree(str(keep_dir.joinpath(Path(keep).name)), str(keep))
-    rmtree(str(keep_dir))
-    rmtree(str(git_dir))
+    copytree(str(TMP_DIR.joinpath(git_dir.name)), str(project_dir))
+    rmtree(str(TMP_DIR.joinpath(git_dir.name)))
 
 # -------------------------------------------------------------------------- Utils --
