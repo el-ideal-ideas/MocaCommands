@@ -57,7 +57,7 @@ class MocaSynchronizedJSONListFile(MocaSynchronizedJSONFile):
     def change_json(self, data: list) -> Any:
         """Change json data."""
         if self._remove_duplicates:
-            return super(MocaSynchronizedJSONListFile, self).change_json(set(data))
+            return super(MocaSynchronizedJSONListFile, self).change_json(list(set(data)))
         else:
             return super(MocaSynchronizedJSONListFile, self).change_json(data)
 
