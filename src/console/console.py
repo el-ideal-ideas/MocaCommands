@@ -52,6 +52,16 @@ def update_system() -> None:
     )
 
 
+@console.command('reset-system')
+def reset_system() -> None:
+    """Reset this system."""
+    mzk.update_use_github(
+        core.TOP_DIR,
+        'https://github.com/el-ideal-ideas/MocaCommands',
+        []
+    )
+
+
 @console.command('run')
 def run(sleep: float = 0) -> None:
     """Run MocaCommands."""

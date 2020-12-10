@@ -63,7 +63,8 @@ except (ImportError, ModuleNotFoundError):
     dumps = partial(__dumps, separators=(",", ":"), ensure_ascii=False)
     is_ujson = lambda: False
 from ..moca_core import (
-    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING, TMP_DIR, IS_UNIX_LIKE
+    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING, TMP_DIR,
+    IS_UNIX_LIKE, SELF_PATH
 )
 
 # -------------------------------------------------------------------------- Imports --
@@ -1359,7 +1360,7 @@ def get_my_public_ip() -> str:
     return get_my_public_ip_v6()
 
 
-def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[Union[Path, str]]) -> None:
+def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[Union[Path, str]] = []) -> None:
     git_dir = Path(project_dir).joinpath(uuid4().hex)
     git_clone(url, str(git_dir))
     for keep in keep_list:
@@ -1388,5 +1389,16 @@ def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[U
     rmtree(str(project_dir))
     copytree(str(TMP_DIR.joinpath(git_dir.name)), str(project_dir))
     rmtree(str(TMP_DIR.joinpath(git_dir.name)))
+
+
+def update_moca_modules() -> None:
+    update_use_github(
+        SELF_PATH,
+        'https://github.com/el-ideal-ideas/MocaModules',
+        [
+            SELF_PATH.joinpath('moca_data'),
+            SELF_PATH.joinpath('moca_keep'),
+        ],
+    )
 
 # -------------------------------------------------------------------------- Utils --
