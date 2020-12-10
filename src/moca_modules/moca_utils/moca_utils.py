@@ -63,7 +63,7 @@ except (ImportError, ModuleNotFoundError):
     dumps = partial(__dumps, separators=(",", ":"), ensure_ascii=False)
     is_ujson = lambda: False
 from ..moca_core import (
-    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING, TMP_DIR
+    LICENSE, NEW_LINE, tz, ConsoleColor, HIRAGANA, KATAKANA, PROCESS_ID, IS_WIN, DIGITS, ENCODING, TMP_DIR, IS_UNIX_LIKE
 )
 
 # -------------------------------------------------------------------------- Imports --
@@ -1373,7 +1373,10 @@ def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[U
         for i in tmp:
             to_ = to_.joinpath(i)
         try:
-            to_.unlink(missing_ok=True)
+            if IS_UNIX_LIKE:
+                call(f'rm -rf {to_}', shell=True)
+            else:
+                to_.unlink(missing_ok=True)
             copy(str(from_), str(to_))
         except IsADirectoryError:
             try:
