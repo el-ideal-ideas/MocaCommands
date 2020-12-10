@@ -1367,7 +1367,7 @@ def update_use_github(project_dir: Union[Path, str], url: str, keep_list: List[U
         to_ = git_dir
         tmp = []
         while from_ != Path(project_dir):
-            tmp.append(from_.parent.name)
+            tmp.append(from_.name)
             from_ = from_.parent
         from_ = Path(keep)
         for i in tmp:
