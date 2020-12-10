@@ -18,7 +18,7 @@ from .moca_utils import (
     try_to_obj, parser_str, en_faker, jp_faker, zh_faker, validate_argument, is_file, is_dir, get_text_from_url,
     aio_get_text_from_url, print_table, remove_extension, all_ascii, all_alnum, all_alpha, all_numeric,
     have_alnum, have_alpha, have_ascii, have_numeric, create_tor_deny_config_for_nginx, pm, pl, resize_img,
-    get_my_public_ip, get_my_public_ip_v6, get_my_public_ip_v4, update_use_github
+    get_my_public_ip, get_my_public_ip_v6, get_my_public_ip_v4, update_use_github, update_moca_modules
 )
 from .moca_centos_utils import (  # The functions in this file, Only supports CentOS 8 and RHEL 8.
     get_centos_cpu_info, get_centos_cpu_model_name, get_centos_cpu_vendor_id, get_centos_cpu_cores,

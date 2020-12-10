@@ -14,7 +14,7 @@ from ..moca_redis import test_redis_connection
 from ..moca_core import VERSION, ENCODING, IS_UNIX_LIKE, SELF_PATH, SCRIPT_DIR_PATH, TMP_DIR
 from ..moca_utils import (
     install_modules, print_json_beautiful, add_moca_modules_to_system, get_random_string, disk_speed,
-    create_tor_deny_config_for_nginx, get_my_public_ip_v6, get_my_public_ip_v4
+    create_tor_deny_config_for_nginx, get_my_public_ip_v6, get_my_public_ip_v4, update_moca_modules
 )
 from ..moca_file import (
     write_str_to_file
@@ -116,6 +116,12 @@ def remove_all_python_modules() -> None:
 def update_requirements_for_moca_modules() -> None:
     """Install and update requirements."""
     install_modules(REQUIREMENTS, True)
+
+
+@typer_console.command('update-moca-modules')
+def update_moca_modules_use_github() -> None:
+    """Get latest version of MocaModules from github."""
+    update_moca_modules()
 
 
 @typer_console.command('add-moca-modules-to-my-system')
