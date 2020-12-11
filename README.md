@@ -30,13 +30,13 @@ You can use `URL parameter` or `Form parameter` or `json body`
         
 - `http://<your-ip>:<your-port>/moca-commands/dynamic/py/<filename>`
     - This UIR can run files in the `dynamic_scripts/python` as a dynamic route.
-    - When you changed the source code of these files, the file will be reload automatically.
+    - When you changed the source code of these files, the file will be reloaded automatically.
     - The usage please look the sample files under the dynamic_scripts directory.
     
 
 - `http://<your-ip>:<your-port>/moca-commands/dynamic/js/<filename>`
     - This UIR can run files in the `dynamic_scripts/javascript` as a dynamic route.
-    - When you changed the source code of these files, the file will be reload automatically.
+    - When you changed the source code of these files, the file will be reloaded automatically.
     - The usage please look the sample files under the dynamic_scripts directory.   
  
         
@@ -165,7 +165,7 @@ System will call `show_my_request` function and return the response.
     "rate_per_ip": string  // the rate limit of this command per ip address.
 }
 ```
-#### After your changed `commands/commands.json` will be reload automatically.
+#### After your changed `commands/commands.json` will be reloaded automatically.
 
 ### API-KEY format
 ```
@@ -184,7 +184,7 @@ System will call `show_my_request` function and return the response.
 }
 ```
 
-#### After your changed `configs/api_key.json` will be reload automatically.
+#### After your changed `configs/api_key.json` will be reloaded automatically.
 
 ### server.json
 ```
@@ -239,7 +239,7 @@ System will call `show_my_request` function and return the response.
   "root_pass": "mochimochi"  // The root password, If valid root password is in your request, You can use all commands without command-pass checking.
 }
 ```
-#### After your changed `configs/system.json` will be reload automatically.
+#### After your changed `configs/system.json` will be reloaded automatically.
 
 ### Sanic server configuration.
 
