@@ -69,6 +69,10 @@ You can use `URL parameter` or `Form parameter` or `json body`
     - Show the version of this system.
 - `python3 moca.py update`
     - Update modules via pip
+- `python3 moca.py update-system`
+    - Get the latest version of code from github and update system.
+- `python3 moca.py reset-system`
+    - Reset all data and update system.
 - `python3 moca.py run`
     - Run this system.
 - `python3 moca.py start`

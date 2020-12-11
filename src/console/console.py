@@ -68,8 +68,10 @@ def run(sleep: float = 0) -> None:
     try:
         mzk.sleep(sleep)
         # run startup script.
-        mzk.call(f'{mzk.executable} {core.TOP_DIR.joinpath("startup.py")}', shell=True)
-        mzk.call(f'sh {core.TOP_DIR.joinpath("startup.sh")}', shell=True)
+        mzk.call(f'{mzk.executable} "{core.TOP_DIR.joinpath("startup.py")}"', shell=True)
+        mzk.call(
+            f'chmod +x "{core.TOP_DIR.joinpath("startup.sh")}";sh "{core.TOP_DIR.joinpath("startup.sh")}"', shell=True
+        )
         from ..server import moca_sanic
         moca_sanic.run()
     except (KeyboardInterrupt, SystemExit):
@@ -81,8 +83,10 @@ def run(sleep: float = 0) -> None:
         mzk.append_str_to_file(core.LOG_DIR.joinpath('critical.log'), mzk.format_exc())
     finally:
         # run atexit script.
-        mzk.call(f'{mzk.executable} {core.TOP_DIR.joinpath("atexit.py")}', shell=True)
-        mzk.call(f'sh {core.TOP_DIR.joinpath("atexit.sh")}', shell=True)
+        mzk.call(f'{mzk.executable} "{core.TOP_DIR.joinpath("atexit.py")}"', shell=True)
+        mzk.call(
+            f'chmod +x "{core.TOP_DIR.joinpath("atexit.sh")}";sh "{core.TOP_DIR.joinpath("atexit.sh")}"', shell=True
+        )
 
 
 @console.command('start')
