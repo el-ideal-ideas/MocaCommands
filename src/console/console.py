@@ -94,7 +94,7 @@ def start(sleep: float = 0) -> None:
     """Run MocaCommands in background."""
     mzk.sleep(sleep)
     mzk.call(
-        f'nohup {mzk.executable} {core.TOP_DIR.joinpath("moca.py")} run &> /dev/null &',
+        f'nohup {mzk.executable} "{core.TOP_DIR.joinpath("moca.py")}" run &> /dev/null &',
         shell=True
     )
 
@@ -113,9 +113,9 @@ def stop(sleep: float = 0) -> None:
 def restart(sleep: float = 0) -> None:
     """Restart MocaCommands."""
     mzk.sleep(sleep)
-    mzk.call(f'nohup {mzk.executable} {core.TOP_DIR.joinpath("moca.py")} stop &> /dev/null &', shell=True)
+    mzk.call(f'nohup {mzk.executable} "{core.TOP_DIR.joinpath("moca.py")}" stop &> /dev/null &', shell=True)
     mzk.sleep(3)
-    mzk.call(f'nohup {mzk.executable} {core.TOP_DIR.joinpath("moca.py")} start &> /dev/null &', shell=True)
+    mzk.call(f'nohup {mzk.executable} "{core.TOP_DIR.joinpath("moca.py")}" start &> /dev/null &', shell=True)
     mzk.sleep(3)
 
 
