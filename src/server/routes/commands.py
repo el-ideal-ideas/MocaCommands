@@ -59,13 +59,22 @@ async def run_commands(request: Request) -> HTTPResponse:
                     raise ServerError('Unknown function.')
                 return func(request, args)
             else:
-                res = mzk.check_output(f"{cmd['cmd']} '{args}'", shell=True)
+                if args != '':
+                    res = mzk.check_output(f"{cmd['cmd']} '{args}'", shell=True)
+                else:
+                    res = mzk.check_output(f"{cmd['cmd']}", shell=True)
                 return text(res.decode())
         elif "cmd_path" in cmd:
             if cmd["cmd_path"].startswith("/"):
-                res = mzk.check_output(f"{cmd['cmd_path']} '{args}'", shell=True)
+                if args != '':
+                    res = mzk.check_output(f"{cmd['cmd_path']} '{args}'", shell=True)
+                else:
+                    res = mzk.check_output(f"{cmd['cmd_path']}", shell=True)
             else:
-                res = mzk.check_output(f"{core.COMMANDS_DIR.joinpath(cmd['cmd_path'])} '{args}'", shell=True)
+                if args != '':
+                    res = mzk.check_output(f"{core.COMMANDS_DIR.joinpath(cmd['cmd_path'])} '{args}'", shell=True)
+                else:
+                    res = mzk.check_output(f"{core.COMMANDS_DIR.joinpath(cmd['cmd_path'])}", shell=True)
             return text(res.decode())
         else:
             raise ServerError('Command format error.')
